@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Form from "./components/Form";
 import GuidesList from "@/components/Guides";
 
-const page = () => {
+const DashboardPage = () => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   return (
     <section className="py-28">
@@ -15,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DashboardPage;
