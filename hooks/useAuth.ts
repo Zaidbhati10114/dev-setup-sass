@@ -44,7 +44,7 @@ export function useAuth() {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
@@ -52,7 +52,7 @@ export function useAuth() {
     supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
