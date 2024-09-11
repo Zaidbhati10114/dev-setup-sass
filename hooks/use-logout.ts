@@ -12,7 +12,7 @@ const useLogout = () => {
       if (error) throw error;
 
       // Redirect to the login page or any other page
-      router.push("/signin");
+      router.push("/");
     } catch (error: any) {
       console.error("Error logging out:", error.message);
     }

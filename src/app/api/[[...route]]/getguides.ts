@@ -42,6 +42,53 @@ const app = new Hono()
       );
     }
   })
+  .get("/guide/:id", async (c) => {
+    const authHeader = c.req.header("Authorization");
+    if (!authHeader) {
+      return c.json({ error: "No authorization header" }, 401);
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
+    if (authError || !user) {
+      return c.json({ error: "Invalid or expired token" }, 401);
+    }
+
+    const guideId = c.req.param("id");
+
+    try {
+      // Fetch the specific guide by ID
+      const { data: guide, error } = await supabase
+        .from("guides")
+        .select("*")
+        .eq("id", guideId)
+        .eq("user_id", user.id)
+        .single();
+
+      if (error) {
+        if (error.code === "PGRST116") {
+          return c.json({ error: "Guide not found" }, 404);
+        }
+        console.error("Supabase fetch error:", error);
+        return c.json(
+          { error: "Failed to retrieve the guide from the database" },
+          500
+        );
+      }
+
+      return c.json({ data: guide });
+    } catch (error) {
+      console.error("Supabase fetch error:", error);
+      return c.json(
+        { error: "Failed to retrieve the guide from the database" },
+        500
+      );
+    }
+  })
   .delete("/:id", async (c) => {
     const authHeader = c.req.header("Authorization");
     if (!authHeader) {

@@ -27,7 +27,7 @@ export default function Form({ isGenerating, setIsGenerating }: FormProps) {
   const [value, setValue] = useState("");
   const { user, session } = useAuth();
   const router = useRouter();
-  const { refetch, isFetching } = useGetGuides(); // Get isFetching state from useGetGuides
+  const { refetch, data } = useGetGuides(); // Get isFetching state from useGetGuides
 
   const mutation = useSetUpAi();
 
@@ -43,6 +43,12 @@ export default function Form({ isGenerating, setIsGenerating }: FormProps) {
       return;
     }
 
+    if (data && data.length >= 2) {
+      toast.error("You have reached the limit of 2 guides");
+      setValue("");
+      return;
+    }
+
     setIsGenerating(true);
 
     // Start mutation
@@ -51,6 +57,7 @@ export default function Form({ isGenerating, setIsGenerating }: FormProps) {
       {
         onSuccess: () => {
           // Once the mutation is successful, trigger refetch of the guides
+          setValue("");
           refetch();
         },
         onSettled: () => {
