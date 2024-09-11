@@ -1,12 +1,8 @@
 "use client";
+
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-
 import { Button, buttonVariants } from "./ui/button";
-
-import { cookies } from "next/headers";
-
-//import MobileNav from "./MobileNav";
 import { GithubIcon, LogOut, SatelliteIcon } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import useLogout from "../../hooks/use-logout";
@@ -21,8 +17,6 @@ const Navbar = () => {
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center">
-              {/* <MobileNav /> */}
-
               <div className="ml-4 flex flex-col lg:ml-0">
                 <Link href="/" className="flex items-center space-x-2">
                   <SatelliteIcon className="fill-current text-blue-600" />
@@ -30,12 +24,8 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              {/* <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                hhhhh
-              </div> */}
-
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                <div className="flex items-center lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {user ? null : (
                     <Link
                       href="/signin"
@@ -47,32 +37,40 @@ const Navbar = () => {
                     </Link>
                   )}
 
-                  {user ? null : (
-                    <div className="flex lg:ml-6">
-                      <span
-                        className="h-6 w-px bg-gray-200"
-                        aria-hidden="true"
-                      />
-                    </div>
+                  {!user && (
+                    <span
+                      className="h-6 w-px bg-gray-200 mx-2"
+                      aria-hidden="true"
+                    />
                   )}
 
-                  <div className="ml-4 flow-root lg:ml-6">
-                    {user && (
+                  <Link
+                    target="_blank"
+                    href={"https://github.com/Zaidbhati10114"}
+                  >
+                    <Button className="lg:hidden p-2" variant={"ghost"}>
+                      <GithubIcon className="w-5 h-5" />
+                    </Button>
+                  </Link>
+
+                  <Link
+                    target="_blank"
+                    href={"https://github.com/Zaidbhati10114"}
+                  >
+                    <Button className="hidden lg:flex" variant={"ghost"}>
+                      <GithubIcon className="w-5 h-5 mr-1" />
+                      Github
+                    </Button>
+                  </Link>
+
+                  {user && (
+                    <div className="ml-4 flow-root lg:ml-6">
                       <Button onClick={logout} variant={"ghost"}>
                         <LogOut className="w-5 h-5 mr-1" />
                         Logout
                       </Button>
-                    )}
-                  </div>
-
-                  {user ? (
-                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  ) : null}
-
-                  <Button variant={"ghost"}>
-                    <GithubIcon className="w-5 h-5 mr-1" />
-                    Github
-                  </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
